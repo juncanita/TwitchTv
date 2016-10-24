@@ -1,0 +1,16 @@
+Things to do:
+
+1. Use JSON to get Free Code Camp Twitch.tv.
+       a. Show if FCC is online or offline.
+       b. Create a link to FCC.
+   
+2. Create an array consisting of streamers as specified in the FCC project.
+
+3. Create a Row with 3 columns for Logo, Name and Status for the streamers.
+
+4. Use JSON to get the logo, name and status of the streamers.  Use "if statements" and "loops" to list
+   properly the following:
+       a. Streamers that are closed or do not exist.
+       b. Streamers that are offline.
+       c. Streamers that are online. Show also the details of what they are streaming.
+    
