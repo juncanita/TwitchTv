@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Twitch TV</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
+    <style>
+        body {
+            background-color: lightblue;
+        }
+        img {
+            width: 70px;
+            border-radius: 50%;
+        }
+        .col-md-4 {
+            padding: 5px;
+        }
+        .row {
+            border: 5px white solid;
+            border-radius: 15px;
+        }
+
+    </style>
+  
+
+  </head>
+  <body>
+
+    <div class="container">
+        <div class="text-center">
+	     <h1>Twitch TV JSON API</h1>
+             <a href = "https://twitch.tv/freecodecamp" target="blank">
+	     <h3 id="fccStatus"></h3>
+             </a>
+        </div>
+
+        <div class="row">
+            <h3>
+            <div class="col-md-4">
+                Logo
+            </div>
+            <div class="col-md-4">
+                Name
+            </div>
+            <div class="col-md-4">
+                Status
+            </div>
+            </h3>
+        </div>
+
+        <div id="listStreamers">
+
+        </div>
+
+    </div>
+
+
+    <script>  
+
+	$(document).ready(function() {
+            var url = "https://wind-bow.hyperdev.space/twitch-api/streams/freecodecamp/?callback=?";
+
+	    $.getJSON(url, function(data) {
+	        console.log(data);
+                if (data.stream===null) {
+                    $("#fccStatus").html("Free Code Camp is OFFLINE");
+                }
+                else {
+                    $("#fccStatus").html("Free Code Camp is ONLINE");
+                }
+	    });
+
+	    var streamers = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin", "comster404"];
+
+	    for (var i = 0; i < streamers.length; i++){
+
+	        var url1 = "https://wind-bow.hyperdev.space/twitch-api/channels/" + streamers[i] + "/?callback=?";
+
+	        $.getJSON(url1, function(data1) {
+	            console.log(data1);
+		    var logo;
+	            var name;
+	            var status;
+
+	            if (data1.error) {
+                       logo = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ5lQ6RYh_QCcm0qoE13KWulJoNuTKeHvlU_p4TjH2p6ibS65ZJ";
+		        name = data1.message;
+	               status = data1.error;
+	            
+	               $("#listStreamers").append("<div class = 'row'>" + "<div class = 'col-md-4'>" + "<img src = '" + logo + "'>" + "</div>" + "<div class = 'col-md-4'>" + name + "</div>" + "<div class = 'col-md-4'>" + status + "</div>" + "</div>");
+                   }
+	        
+           
+	            if (data1.partner === false) {
+	                logo = data1.logo;
+	                name = data1.display_name;
+	                status = "OFFLINE";
+		
+		        $("#listStreamers").append("<div class = 'row'>" + "<div class = 'col-md-4'>" + "<img src = '" + logo + "'>" + "</div>" + "<div class = 'col-md-4'>" + name + "</div>" + "<div class = 'col-md-4'>" + status + "</div>" + "</div>");
+                   }
+
+	            else if (data1.partner === true) {
+	                logo = data1.logo;
+	                name = data1.display_name;
+	                status = data1.status;
+		
+		        $("#listStreamers").append("<div class = 'row'>" + "<div class = 'col-md-4'>" + "<img src = '" + logo + "'>" + "</div>" + "<div class = 'col-md-4'>" + name + "</div>" + "<div class = 'col-md-4'>" + status + "</div>" + "</div>");
+                   }
+               });
+            }    
+	  
+        });
+	          
+	   	
+    </script>
+	
+  </body>
+</html>
